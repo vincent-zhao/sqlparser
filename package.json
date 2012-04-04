@@ -1,0 +1,21 @@
+{
+  "name": "sql-parser",
+  "version": "0.1.0",
+  "author": "Vincent-zhao (zzqvincent@gmail.com)",
+  "homepage": "https://github.com/vincent-zhao/sql-parser",
+  "description": "A simple sql parser tool",
+  "keywords": ["sql"],
+  "dependencies": {},
+  "engines": {
+    "node": ">=0.6.6"
+  },
+  "main": "lib/sqlParser.js",
+  "devDependencies": {
+    "should": ">=0.4.2",
+    "mocha": ">=0.9.0",
+    "jscoverage":">=0.1.1"
+  },
+  "scripts": {
+    "test": "make test"
+  }
+}
