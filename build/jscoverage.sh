@@ -13,7 +13,7 @@ fi
 
 cd "${__ROOT}/tmp" && git clone git://github.com/visionmedia/node-jscoverage.git node-jscoverage && \
     cd node-jscoverage && ./configure && make && \
-    cp ./jscoverage "${JSCOVE}" && rm -rf ${__ROOT}/tmp
+    cp ./jscoverage "${JSCOVE}" && chmod +x "${JSCOVE}" && rm -rf ${__ROOT}/tmp
 }
 # }}} #
 
