@@ -1,4 +1,3 @@
-
 # 介绍
 
 `sqlparser`是一个简单的sql解析器。将一句完整的sql语句解析为一个JavaScript对象
