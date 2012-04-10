@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/vincent-zhao/sqlparser.png?branch=master)](http://travis-ci.org/vincent-zhao/sqlparser)
+
 # 介绍
 
 `sqlparser`是一个简单的sql解析器。将一句完整的sql语句解析为一个JavaScript对象
@@ -19,8 +21,7 @@ sqlparser的使用非常方便
 
 ```javascript
 var Parser = require('sqlparser');
-var result = Parser.parse('select * from table');
-
+var result = Parser.parse('SELECT * FROM table');
 ```
 
 # 测试
