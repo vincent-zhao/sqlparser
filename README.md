@@ -1,7 +1,7 @@
 
 # 介绍
 
-`sql-parser`是一个简单的sql解析器。将一句完整的sql语句解析为一个JavaScript对象
+`sqlparser`是一个简单的sql解析器。将一句完整的sql语句解析为一个JavaScript对象
 
 * 支持select，insert，delete，update语句
 * 除select部分支持子sql以外，都不支持子sql嵌套
@@ -19,9 +19,9 @@ $ npm install sqlparser
 sqlparser的使用非常方便
 
 ```javascript
-var sqlParser = require('sqlparser');
+var Parser = require('sqlparser');
+var result = Parser.parse('select * from table');
 
-var result = sqlParser.parse('select * from table');
 ```
 
 # 测试
