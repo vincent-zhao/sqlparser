@@ -185,12 +185,12 @@ describe('parse select sql',function(){
 
   /*{{{ test parse where works fine*/
   it('test parse where works fine',function(done){
-		var sql = 'SelEcT a FROM b WHERE a=b AND c >= "id" AND thedate BETWEEN (100 AND 200) AND t IN (2,5,"6") and m LIKE "%abc%" AND 1 <> 2 AND d is not null AND p NOT LIKE "8" AND db.table.x NOT IN (2) AND z is null';
+		var sql = 'SelEcT a FROM b WHERE a=b+1 AND c >= "id" AND thedate BETWEEN (100 AND 200) AND t IN (2,5,"6") and m LIKE "%abc%" AND 1 <> 2 AND d is not null AND p NOT LIKE "8" AND db.table.x NOT IN (2) AND z is null';
     var expect = 
     [
       {
         relate: sqlParser.RELATE["="],
-        values: [{text: 'b',type: 1}],
+        values: [{text: 'b',type: 1},{text:'+',type:7},{text:1,type:2}],
         column: {text: 'a',type: 1}
       },
       {
