@@ -25,12 +25,12 @@ describe('parse delete sql',function(){
       { 
         column:{text:"id",type:1},
         relate:sqlParser.RELATE["between"],
-        values:[{text:100,type:2},{text:200,type:2}]
+        values:[[{text:100,type:2}],[{text:200,type:2}]]
       },
       {
         column:{text:"id2",type:1},
         relate:sqlParser.RELATE["in"],
-        values:[{text:2,type:2},{text:5,type:2},{text:"8",type:3}]
+        values:[[{text:2,type:2}],[{text:5,type:2}],[{text:"8",type:3}]]
       }
     ];
     sqlParser.parse(sql).where.should.eql(expect);
@@ -51,7 +51,7 @@ describe('parse delete sql',function(){
         {
           column: {text:"cid",type:1},
           relate: sqlParser.RELATE["="],
-          values: [{text:1,type:2}]
+          values: [[{text:1,type:2}]]
         }
       ]
     };

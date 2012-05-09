@@ -1,5 +1,6 @@
 var should = require('should');
 var sqlParser = require(__dirname + '/../lib/sqlParser');
+var util = require('util');
 
 describe('parse select sql',function(){
 
@@ -143,12 +144,12 @@ describe('parse select sql',function(){
           {
             column: {text:"a.c3",type:1},
             relate: sqlParser.RELATE["="],
-            values: [{text:"m.c3",type:1}]
+            values: [[{text:"m.c3",type:1}]]
           },
           {
             column: {text:"a.c4",type:1},
             relate: sqlParser.RELATE[">"],
-            values: [{text:"b.c4",type:1}]
+            values: [[{text:"b.c4",type:1}]]
           }
         ]
       },
@@ -160,7 +161,7 @@ describe('parse select sql',function(){
           {
             column: {text:"c.id",type:1},
             relate: sqlParser.RELATE["in"],
-            values: [{text:1,type:2},{text:5,type:2},{text:9,type:2}]
+            values: [[{text:1,type:2}],[{text:5,type:2}],[{text:9,type:2}]]
           }
         ]
       },
@@ -172,7 +173,7 @@ describe('parse select sql',function(){
           {
             column: {text:"s.id",type:1},
             relate: sqlParser.RELATE["="],
-            values: [{text:"a.id",type:1}]
+            values: [[{text:"a.id",type:1}]]
           }
         ]
       }
@@ -185,37 +186,45 @@ describe('parse select sql',function(){
 
   /*{{{ test parse where works fine*/
   it('test parse where works fine',function(done){
-		var sql = 'SelEcT a FROM b WHERE a=b+1 AND c >= "id" AND thedate BETWEEN (100 AND 200) AND t IN (2,5,"6") and m LIKE "%abc%" AND 1 <> 2 AND d is not null AND p NOT LIKE "8" AND db.table.x NOT IN (2) AND z is null';
+		var sql = 'SelEcT a FROM b WHERE a=b AND m=SUM(m+2) AND c >= "id" AND thedate BETWEEN (100 AND 200+n) AND t IN (SUM(num+3),n+5,"6") and m LIKE "%abc%" AND 1 <> 2 AND d is not null AND p NOT LIKE "8" AND db.table.x NOT IN (2) AND z is null';
     var expect = 
     [
       {
         relate: sqlParser.RELATE["="],
-        values: [{text: 'b',type: 1},{text:'+',type:7},{text:1,type:2}],
+        values: [[{text: 'b',type: 1}]],
         column: {text: 'a',type: 1}
       },
       {
+        relate: sqlParser.RELATE['='],
+        values: [[{text:'SUM',type:4},{text:'(',type:8},{text:'m',type:1},{text:'+',type:7},{text:2,type:2},{text:')', type:8}]],
+        column: {text: 'm',type: 1}
+      },
+      {
         relate: sqlParser.RELATE[">="],
-        values: [{text: 'id',type: 3}],
+        values: [[{text: 'id',type: 3}]],
         column: {text: 'c',type: 1}
       },
       {
         relate: sqlParser.RELATE["between"],
-        values: [{text: 100,type: 2},{text: 200,type: 2}],
+        values: [[{text: 100,type: 2}],[{text: 200,type: 2},{text:'+',type:7},{text:'n',type:1}]],
         column: {text: 'thedate',type: 1}
       },
       {
         relate: sqlParser.RELATE["in"],
-        values: [{text: 2,type: 2},{text: 5,type: 2},{text: '6',type: 3}],
+        values: [
+          [{text:'SUM',type:4},{text:'(',type:8},{text:'num',type:1},{text:'+',type:7},{text:3,type:2},{text:')', type:8}],
+          [{text:'n',type:1},{text:'+',type:7},{text: 5,type: 2}],
+          [{text: '6',type: 3}]],
         column: {text: 't',type: 1}
       },
       {
         relate: sqlParser.RELATE["like"],
-        values: [{text: '%abc%',type: 3}],
+        values: [[{text: '%abc%',type: 3}]],
         column: {text: 'm',type: 1}
       },
       {
         relate: sqlParser.RELATE["<>"],
-        values: [{text: 2,type: 2}],
+        values: [[{text: 2,type: 2}]],
         column: {text: 1,type: 2}
       },
       {
@@ -225,12 +234,12 @@ describe('parse select sql',function(){
       },
       {
         relate: sqlParser.RELATE["not like"],
-        values: [{text: '8',type: 3}],
+        values: [[{text: '8',type: 3}]],
         column: {text: 'p',type: 1}
       },
       {
         relate: sqlParser.RELATE["not in"],
-        values: [{text: 2,type: 2}],
+        values: [[{text: 2,type: 2}]],
         column: {text: 'db.table.x',type: 1}
       },
       {
@@ -329,7 +338,7 @@ describe('parse select sql',function(){
           where:[{
             column:{text:"tab.col",type:1},
             relate:sqlParser.RELATE[">"],
-            values:[{text:"b.col",type:1}]
+            values:[[{text:"b.col",type:1}]]
           }]
         }
       },
@@ -337,7 +346,7 @@ describe('parse select sql',function(){
         {
           column:{text:"b.id",type:1},
           relate:sqlParser.RELATE["in"],
-          values:[{text:1,type:2},{text:4,type:2},{text:6,type:2}]
+          values:[[{text:1,type:2}],[{text:4,type:2}],[{text:6,type:2}]]
         },
       ],
       groupby:[

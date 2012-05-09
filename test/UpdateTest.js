@@ -18,18 +18,18 @@ describe('parse update sql',function(){
 
   /*{{{ test parse column works fine*/
   it('test parse column works fine',function(done){
-    var sql = "uPdAte a SeT a.m = 1,n='a' WHerE b=2"; 
+    var sql = "uPdAte a SeT a.m = 1+m,n='a' WHerE b=2"; 
     var expect = 
     [
       {
         column : {text:"a.m",type:1},
         relate : sqlParser.RELATE["="],
-        values : [{text:1,type:2}]
+        values : [[{text:1,type:2},{text:'+',type:7},{text:'m',type:1}]]
       },
       {
         column : {text:"n",type:1},
         relate : sqlParser.RELATE["="],
-        values : [{text:'a',type:3}]
+        values : [[{text:'a',type:3}]]
       },
     ];
     sqlParser.parse(sql).column.should.eql(expect);
@@ -45,12 +45,12 @@ describe('parse update sql',function(){
       {
         column:{text:"id",type:1},
         relate:sqlParser.RELATE["between"],
-        values:[{text:100,type:2},{text:200,type:2}]
+        values:[[{text:100,type:2}],[{text:200,type:2}]]
       },
       {
         column:{text:"id2",type:1},
         relate:sqlParser.RELATE["in"],
-        values:[{text:2,type:2},{text:5,type:2},{text:"8",type:3}]
+        values:[[{text:2,type:2}],[{text:5,type:2}],[{text:"8",type:3}]]
       }
     ];
     sqlParser.parse(sql).where.should.eql(expect);
@@ -71,24 +71,24 @@ describe('parse update sql',function(){
         {
           column : {text:"tab.name",type:1},
           relate : sqlParser.RELATE["="],
-          values : [{text:'ban',type:3}]
+          values : [[{text:'ban',type:3}]]
         },
         {
           column : {text:"tab.sex",type:1},
           relate : sqlParser.RELATE["="],
-          values : [{text:'male',type:3}]
+          values : [[{text:'male',type:3}]]
         },
       ],
       where : [
         {
           column : {text:"tab.id",type:1},
           relate : sqlParser.RELATE[">"],
-          values : [{text:3,type:2}]
+          values : [[{text:3,type:2}]]
         },
         {
           column : {text:"tab.year",type:1},
           relate : sqlParser.RELATE["in"],
-          values : [{text:1990,type:2},{text:'1991',type:3}]
+          values : [[{text:1990,type:2}],[{text:'1991',type:3}]]
         }   
       ]
     };
