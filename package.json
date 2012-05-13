@@ -1,6 +1,6 @@
 {
   "name": "sqlparser",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "vincent-zhao (zzqvincent@gmail.com)",
   "homepage": "https://github.com/vincent-zhao/sqlparser",
   "description": "A simple sql parser tool",
